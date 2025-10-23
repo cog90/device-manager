@@ -1,4 +1,5 @@
 import AV from 'leancloud-storage';
+import { DeviceStatus } from './types';
 
 // 初始化LeanCloud（提供字符串回退以通过类型检查）
 const APP_ID: string = process.env.NEXT_PUBLIC_LEANCLOUD_APP_ID || '';
@@ -17,7 +18,7 @@ export const DeviceTable = AV.Object.extend('Devices');
 export const UserTable = AV.Object.extend('users');
 
 // 计算设备状态（安全解析 YYYY-MM-DD 字符串，避免不同环境解析差异）
-export function calculateDeviceStatus(expiryDate?: string): 'normal' | 'expiring' | 'expired' {
+export function calculateDeviceStatus(expiryDate?: string): DeviceStatus {
   const parseYMD = (dateStr?: string) => {
     if (!dateStr) return NaN;
     const match = dateStr.match(/^\d{4}-\d{2}-\d{2}$/);
@@ -29,12 +30,12 @@ export function calculateDeviceStatus(expiryDate?: string): 'normal' | 'expiring
   const today = new Date();
   const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
   const expireTs = parseYMD(expiryDate);
-  if (Number.isNaN(expireTs)) return 'expired';
+  if (Number.isNaN(expireTs)) return DeviceStatus.EXPIRED;
 
   const diffDays = Math.ceil((expireTs - startOfToday) / (1000 * 60 * 60 * 24));
-  if (diffDays < 0) return 'expired';
-  if (diffDays <= 7) return 'expiring';
-  return 'normal';
+  if (diffDays < 0) return DeviceStatus.EXPIRED;
+  if (diffDays <= 7) return DeviceStatus.EXPIRING;
+  return DeviceStatus.NORMAL;
 }
 
 // 创建设备
