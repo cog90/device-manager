@@ -4,11 +4,10 @@
 
 ## 功能特性
 
-- 📱 **设备管理**: 添加、编辑、删除设备信息
-- 📊 **状态监控**: 自动计算设备状态（正常、即将过期、已过期）
-- 🔍 **智能筛选**: 按状态筛选设备，支持搜索功能
-- 📈 **数据统计**: 实时显示设备统计信息
-- 🎨 **现代UI**: 简约时尚的苹果风格界面
+- **设备管理**: 添加、编辑、删除设备信息
+- **状态监控**: 自动计算设备状态（正常、即将过期、已过期）
+- **智能筛选**: 按状态筛选设备，支持搜索功能
+- **数据统计**: 实时显示设备统计信息
 
 ## 技术栈
 
@@ -35,6 +34,7 @@ npm install
 NEXT_PUBLIC_LEANCLOUD_APP_ID=your-app-id
 NEXT_PUBLIC_LEANCLOUD_APP_KEY=your-app-key
 NEXT_PUBLIC_LEANCLOUD_SERVER_URL=https://your-app-id.api.lncldglobal.com
+INVITE_CODE=your-invite-code
 ```
 
 ### 3. 创建数据表
@@ -50,7 +50,7 @@ NEXT_PUBLIC_LEANCLOUD_SERVER_URL=https://your-app-id.api.lncldglobal.com
 ### 4. 启动开发服务器
 
 ```bash
-npm run dev
+npm run dev -- --webpack
 ```
 
 访问 [http://localhost:3000](http://localhost:3000) 查看应用。
