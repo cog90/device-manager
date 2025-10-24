@@ -18,6 +18,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: '用户名或密码错误' }, { status: 401 });
     }
 
+    if (!user.id) {
+      return NextResponse.json({ message: '用户数据错误' }, { status: 500 });
+    }
+
     await createSession(user.id);
     return NextResponse.json({ id: user.id, username });
   } catch (e) {

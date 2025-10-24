@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await hashPassword(password);
     const user = await createUser(username, passwordHash);
+    
+    if (!user.id) {
+      return NextResponse.json({ message: '创建用户失败' }, { status: 500 });
+    }
+    
     await createSession(user.id);
 
     return NextResponse.json({ id: user.id, username });
